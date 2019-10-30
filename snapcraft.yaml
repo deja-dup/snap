@@ -57,9 +57,10 @@ parts:
       - setuptools
       - wheel
     build-packages:
-      - libffi-dev
+      - libffi-dev  # for cffi from pyrax
       - libgirepository1.0-dev
       - librsync-dev
+      - libssl-dev  # for cffi from pyrax
     stage-packages:
       - gpg
       - libgirepository-1.0-1
