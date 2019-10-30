@@ -6,6 +6,8 @@ AUTOSTART_FILE="$SNAP/usr/etc/xdg/autostart/org.gnome.DejaDup.Monitor.desktop"
 mkdir -p "$AUTOSTART_DIR"
 cp --update "$AUTOSTART_FILE" "$AUTOSTART_DIR"
 
+export PATH="$SNAP/bin:$SNAP/usr/bin:$PATH"
+
 # Without this line we don't seem to properly watch dconf changes.
 # The snap default is this dir, plus a "snap.deja-dup" directory.
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
