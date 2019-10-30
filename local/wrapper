@@ -1,0 +1,26 @@
+#!/bin/sh
+
+# Set up the monitor daemon to autostart
+AUTOSTART_DIR="$SNAP_USER_DATA/.config/autostart"
+AUTOSTART_FILE="$SNAP/usr/etc/xdg/autostart/org.gnome.DejaDup.Monitor.desktop"
+mkdir -p "$AUTOSTART_DIR"
+cp --update "$AUTOSTART_FILE" "$AUTOSTART_DIR"
+
+# Without this line we don't seem to properly watch dconf changes.
+# The snap default is this dir, plus a "snap.deja-dup" directory.
+export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+
+# To make gvfs-backend and its GVFS url parsing work, we need this next line
+export LD_LIBRARY_PATH="$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET/gvfs:$LD_LIBRARY_PATH"
+
+# Fixes a crash
+export GTK_EXE_PREFIX="$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET"
+
+# Point at core18's Python interpreter
+export PATH="/snap/core18/current/usr/bin:$PATH"
+
+# Point at our internal python packages
+export PYTHONPATH="$SNAP/lib/python3.6/site-packages:$PYTHONPATH"
+
+export DEJA_DUP_MONITOR_EXEC="/snap/bin/deja-dup.monitor"
+exec "$@"
