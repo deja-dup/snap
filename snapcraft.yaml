@@ -2,18 +2,6 @@
 ---
 name: deja-dup
 title: Déjà Dup Backup Tool
-summary: Keep your important documents safe from disaster
-description: |
-  Déjà Dup is a simple backup tool. It hides the complexity of backing up the
-  Right Way (encrypted, off-site, and regular) and uses duplicity as the
-  backend.
-
-  * Support for local, remote, or cloud backup locations such as Google Drive
-  * Securely encrypts and compresses your data
-  * Incrementally backs up, letting you restore from any particular backup
-  * Schedules regular backups
-  * Integrates well into your GNOME desktop
-icon: org.gnome.DejaDup.svg
 license: GPL-3.0+
 
 grade: stable
@@ -27,7 +15,6 @@ apps:
     adapter: full
     command-chain: [bin/desktop-launch, wrapper]
     command: usr/bin/deja-dup
-    desktop: usr/share/applications/org.gnome.DejaDup.desktop
     common-id: org.gnome.DejaDup
 
   monitor:
@@ -78,6 +65,7 @@ parts:
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
+    parse-info: [usr/share/metainfo/org.gnome.DejaDup.appdata.xml]
     organize:
       snap/deja-dup/current: .
     build-packages:
@@ -107,7 +95,7 @@ parts:
       snapcraftctl set-version "$(grep version: meson.build -m1 | cut -d\' -f2)"
     override-prime: |
       snapcraftctl prime
-      sed -i 's|Icon=.*|Icon=/usr/share/icons/hicolor/scalable/apps/org.gnome.DejaDup.svg|' usr/share/applications/org.gnome.DejaDup.desktop
+      sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/org.gnome.DejaDup.svg|' usr/share/applications/org.gnome.DejaDup.desktop
 
 
   desktop-gtk3:
