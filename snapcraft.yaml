@@ -31,7 +31,7 @@ parts:
   duplicity:
     plugin: python
     python-version: python3
-    source: https://launchpad.net/duplicity/0.8-series/0.8.06/+download/duplicity-0.8.06.tar.gz
+    source: https://launchpad.net/duplicity/0.8-series/0.8.07/+download/duplicity-0.8.07.tar.gz
     source-type: tar
     python-packages:
       - boto
@@ -55,7 +55,6 @@ parts:
     override-prime: |
       snapcraftctl prime
       sed -i 's|!/usr/bin/env python$|!/usr/bin/env python3|' bin/duplicity
-      sed -i "s|self.id_cache\[remote_filename\] = drive_file\[u'id'\]|self.id_cache[util.fsdecode(remote_filename)] = drive_file[u'id']|" lib/python3.6/site-packages/duplicity/backends/pydrivebackend.py
 
   deja-dup:
     plugin: meson
