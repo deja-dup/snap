@@ -24,5 +24,9 @@ export PATH="/snap/core18/current/usr/bin:$PATH"
 # Point at our internal python packages
 export PYTHONPATH="$SNAP/lib/python3.6/site-packages:$PYTHONPATH"
 
+# Prevents a crash when we start yelp
+# It's set by desktop helpers, but doesn't seem necessary
+unset GDK_PIXBUF_MODULE_FILE
+
 export DEJA_DUP_MONITOR_EXEC="/snap/bin/deja-dup.monitor"
 exec "$@"
