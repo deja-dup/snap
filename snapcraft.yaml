@@ -1,4 +1,7 @@
 # -*- Mode: YAML; indent-tabs-mode: nil; tab-width: 2 -*-
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Michael Terry
 ---
 name: deja-dup
 title: Déjà Dup Backup Tool
@@ -31,7 +34,7 @@ parts:
   duplicity:
     plugin: python
     python-version: python3
-    source: https://launchpad.net/duplicity/0.8-series/0.8.07/+download/duplicity-0.8.07.tar.gz
+    source: https://launchpad.net/duplicity/0.8-series/0.8.08/+download/duplicity-0.8.08.tar.gz
     source-type: tar
     python-packages:
       - boto

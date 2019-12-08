@@ -1,4 +1,7 @@
 #!/bin/sh
+#
+# SPDX-License-Identifier: GPL-3.0-or-later
+# SPDX-FileCopyrightText: Michael Terry
 
 # Set up the monitor daemon to autostart
 AUTOSTART_DIR="$SNAP_USER_DATA/.config/autostart"
