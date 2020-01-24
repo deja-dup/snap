@@ -34,7 +34,7 @@ parts:
   duplicity:
     plugin: python
     python-version: python3
-    source: https://launchpad.net/duplicity/0.8-series/0.8.08/+download/duplicity-0.8.08.tar.gz
+    source: https://launchpad.net/duplicity/0.8-series/0.8.09/+download/duplicity-0.8.09.tar.gz
     source-type: tar
     python-packages:
       - boto
