@@ -4,7 +4,6 @@
 # SPDX-FileCopyrightText: Michael Terry
 ---
 name: deja-dup
-title: Déjà Dup Backup Tool
 license: GPL-3.0+
 
 grade: stable
@@ -34,10 +33,9 @@ parts:
   duplicity:
     plugin: python
     python-version: python3
-    source: https://launchpad.net/duplicity/0.8-series/0.8.09/+download/duplicity-0.8.09.tar.gz
-    source-type: tar
     python-packages:
       - boto
+      - duplicity==0.8.11.1599
       - pydrive  # not packaged in Ubuntu
       - pygobject
       - pyrax  # not packaged in Ubuntu
@@ -89,9 +87,6 @@ parts:
       - libjson-glib-1.0-0
       - libsecret-1-0
       - libsoup2.4-1
-    override-pull: |
-      snapcraftctl pull
-      snapcraftctl set-version "$(grep version: meson.build -m1 | cut -d\' -f2)"
     override-prime: |
       snapcraftctl prime
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/org.gnome.DejaDup.svg|' usr/share/applications/org.gnome.DejaDup.desktop
