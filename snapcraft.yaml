@@ -36,6 +36,7 @@ parts:
     python-packages:
       - boto
       - duplicity==0.8.11.1599
+      - httplib2<0.16  # temporarily pin until fix for https://github.com/googleapis/google-api-python-client/issues/803
       - pydrive  # not packaged in Ubuntu
       - pygobject
       - pyrax  # not packaged in Ubuntu
