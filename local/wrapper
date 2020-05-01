@@ -21,11 +21,11 @@ export LD_LIBRARY_PATH="$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET/gvfs:$LD_LIBRA
 # Fixes a crash
 export GTK_EXE_PREFIX="$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET"
 
-# Point at core18's Python interpreter
-export PATH="/snap/core18/current/usr/bin:$PATH"
+# Point at core20's Python interpreter
+export PATH="/snap/core20/current/usr/bin:$PATH"
 
 # Point at our internal python packages
-export PYTHONPATH="$SNAP/lib/python3.6/site-packages:$PYTHONPATH"
+export PYTHONPATH="$SNAP/lib/python3.8/site-packages:$PYTHONPATH"
 
 # Prevents a crash when we start yelp
 # It's set by desktop helpers, but doesn't seem necessary

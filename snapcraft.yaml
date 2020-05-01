@@ -8,7 +8,7 @@ license: GPL-3.0+
 
 grade: stable
 confinement: classic
-base: core18
+base: core20
 adopt-info: deja-dup
 assumes: [command-chain]
 
@@ -32,19 +32,13 @@ parts:
 
   duplicity:
     plugin: python
-    python-version: python3
     python-packages:
       - boto
-      - duplicity==0.8.11.1599
-      - httplib2<0.16  # temporarily pin until fix for https://github.com/googleapis/google-api-python-client/issues/803
-      - pydrive  # not packaged in Ubuntu
+      - duplicity==0.8.12.1618
+      - pydrive
       - pygobject
-      - pyrax  # not packaged in Ubuntu
+      - pyrax
       - python-swiftclient
-      # Deps needed to build
-      - pycairo
-      - setuptools
-      - wheel
     build-packages:
       - libffi-dev  # for cffi from pyrax
       - libgirepository1.0-dev
@@ -53,11 +47,11 @@ parts:
     stage-packages:
       - gpg
       - libgirepository-1.0-1
-      - librsync1
+      - librsync2
 
   deja-dup:
     plugin: meson
-    source: https://gitlab.gnome.org/World/deja-dup
+    source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
     source-branch: stable
     meson-parameters:
