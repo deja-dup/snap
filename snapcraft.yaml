@@ -8,7 +8,7 @@ license: GPL-3.0+
 
 grade: stable
 confinement: classic
-base: core20
+base: core18
 adopt-info: deja-dup
 assumes: [command-chain]
 
@@ -32,6 +32,7 @@ parts:
 
   duplicity:
     plugin: python
+    python-version: python3
     python-packages:
       - boto
       - duplicity==0.8.12.1618
@@ -47,7 +48,7 @@ parts:
     stage-packages:
       - gpg
       - libgirepository-1.0-1
-      - librsync2
+      - librsync1
 
   deja-dup:
     plugin: meson

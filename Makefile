@@ -6,7 +6,7 @@
 .PHONY: snap
 snap:
 	rm -f *.snap
-	snapcraft snap --use-lxd
+	snapcraft snap
 	snap install ./*.snap --classic --dangerous
 
 .PHONY: clean
