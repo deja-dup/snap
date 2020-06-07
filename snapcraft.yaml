@@ -35,13 +35,12 @@ parts:
     python-version: python3
     python-packages:
       - boto
-      - duplicity==0.8.13
+      - duplicity==0.8.12.1618
       - httplib2<0.16  # pin until pydrive has fix for https://github.com/googleapis/google-api-python-client/issues/803
       - pydrive
       - pygobject
       - pyrax
       - python-swiftclient
-      - setuptools-scm
     build-packages:
       - libffi-dev  # for cffi from pyrax
       - libgirepository1.0-dev
