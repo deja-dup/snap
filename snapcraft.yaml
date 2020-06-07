@@ -41,6 +41,7 @@ parts:
       - pygobject
       - pyrax
       - python-swiftclient
+      - setuptools-scm
     build-packages:
       - libffi-dev  # for cffi from pyrax
       - libgirepository1.0-dev
