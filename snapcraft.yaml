@@ -35,7 +35,8 @@ parts:
     python-version: python3
     python-packages:
       - boto
-      - duplicity==0.8.12.1618
+      - duplicity==0.8.13
+      - httplib2<0.16  # pin until pydrive has fix for https://github.com/googleapis/google-api-python-client/issues/803
       - pydrive
       - pygobject
       - pyrax
