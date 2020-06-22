@@ -32,7 +32,8 @@ parts:
 
   duplicity:
     plugin: python
-    constraints: [${SNAPCRAFT_PROJECT_DIR}/constraints.txt]
+    constraints:
+      - ${SNAPCRAFT_PROJECT_DIR}/constraints.txt
     python-packages:
       - boto
       - duplicity
