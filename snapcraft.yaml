@@ -8,7 +8,7 @@ license: GPL-3.0+
 
 grade: stable
 confinement: classic
-base: core18
+base: core20
 adopt-info: deja-dup
 assumes: [command-chain]
 
@@ -32,11 +32,10 @@ parts:
 
   duplicity:
     plugin: python
-    python-version: python3
+    constraints: [${SNAPCRAFT_PROJECT_DIR}/constraints.txt]
     python-packages:
       - boto
-      - duplicity==0.8.12.1618
-      - httplib2<0.16  # pin until pydrive has fix for https://github.com/googleapis/google-api-python-client/issues/803
+      - duplicity
       - pydrive
       - pygobject
       - pyrax
@@ -49,7 +48,7 @@ parts:
     stage-packages:
       - gpg
       - libgirepository-1.0-1
-      - librsync1
+      - librsync2
       - python3
 
   deja-dup:
@@ -64,9 +63,6 @@ parts:
     organize:
       snap/deja-dup/current: .
     build-packages:
-      - appstream-util
-      - dbus
-      - desktop-file-utils
       - gettext
       - itstool
       - libglib2.0-bin
