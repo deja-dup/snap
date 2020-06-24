@@ -45,7 +45,7 @@ parts:
       - gpg
       - libgirepository-1.0-1
       - librsync2
-      - python3
+      - python3-minimal
 
   deja-dup:
     plugin: meson
