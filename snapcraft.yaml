@@ -51,7 +51,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
-    source-branch: 42
+    source-branch: '42'
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
