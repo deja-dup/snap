@@ -45,13 +45,15 @@ parts:
       - gpg
       - libgirepository-1.0-1
       - librsync2
-      - python3-minimal
+    prime:
+      - -bin/python
+      - -bin/python3
 
   deja-dup:
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
-    source-branch: '42'
+    source-branch: master
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
@@ -77,9 +79,20 @@ parts:
       - libjson-glib-1.0-0
       - libsecret-1-0
       - libsoup2.4-1
+    override-pull: |
+      snapcraftctl pull
+      patch -p1 -N < ${SNAPCRAFT_PROJECT_DIR}/no-help.diff
     override-prime: |
       snapcraftctl prime
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/org.gnome.DejaDup.svg|' usr/share/applications/org.gnome.DejaDup.desktop
+
+  # Done separately because the other parts freaks out if we try to stage python
+  python:
+    plugin: nil
+    after: [duplicity, deja-dup]
+    stage-packages:
+      - python3-minimal
+      - python3.8-minimal
 
 
   desktop-gtk3:

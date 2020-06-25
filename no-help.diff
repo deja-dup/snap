@@ -1,0 +1,47 @@
+diff --git a/data/ui/help-overlay.ui b/data/ui/help-overlay.ui
+index 0e29fbbf..a8b0f559 100644
+--- a/data/ui/help-overlay.ui
++++ b/data/ui/help-overlay.ui
+@@ -17,13 +17,6 @@ SPDX-FileCopyrightText: Michael Terry
+           <object class="GtkShortcutsGroup">
+             <property name="visible">1</property>
+             <property name="title" translatable="yes" context="shortcut window">General</property>
+-            <child>
+-              <object class="GtkShortcutsShortcut">
+-                <property name="visible">1</property>
+-                <property name="accelerator">F1</property>
+-                <property name="title" translatable="yes" context="shortcut window">Show help</property>
+-              </object>
+-            </child>
+             <child>
+               <object class="GtkShortcutsShortcut">
+                 <property name="visible">1</property>
+diff --git a/data/ui/menus.ui b/data/ui/menus.ui
+index 38449842..8af37785 100644
+--- a/data/ui/menus.ui
++++ b/data/ui/menus.ui
+@@ -16,10 +16,6 @@ SPDX-FileCopyrightText: Michael Terry
+         <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
+         <attribute name="action">win.show-help-overlay</attribute>
+       </item>
+-      <item>
+-        <attribute name="label" translatable="yes">_Help</attribute>
+-        <attribute name="action">app.help</attribute>
+-      </item>
+       <item>
+         <attribute name="label" translatable="yes">_About Backups</attribute>
+         <attribute name="action">app.about</attribute>
+diff --git a/deja-dup/main.vala b/deja-dup/main.vala
+index 54fa8413..bc563442 100644
+--- a/deja-dup/main.vala
++++ b/deja-dup/main.vala
+@@ -224,9 +224,6 @@ public class DejaDupApp : Gtk.Application
+ 
+   void help()
+   {
+-    unowned List<Gtk.Window> list = get_windows();
+-    DejaDup.show_uri(list == null ? null : list.data,
+-                     "help:" + Config.PACKAGE);
+   }
+ 
+   void menu()
