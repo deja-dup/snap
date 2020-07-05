@@ -41,6 +41,7 @@ parts:
     build-packages:
       - libgirepository1.0-dev
       - librsync-dev
+      - libssl-dev
     stage-packages:
       - gpg
       - libgirepository-1.0-1
