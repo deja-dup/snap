@@ -36,10 +36,9 @@ parts:
       - ${SNAPCRAFT_PROJECT_DIR}/constraints.txt
     python-packages:
       - duplicity
-      - pydrive
+      - pydrive2
       - pygobject
     build-packages:
-      - libgirepository1.0-dev
       - librsync-dev
     stage-packages:
       - gpg

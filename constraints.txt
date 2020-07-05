@@ -1,4 +1,1 @@
-duplicity==0.8.12.1618
-
-# pin until pydrive has fix for https://github.com/googleapis/google-api-python-client/issues/803
-httplib2<0.16
+duplicity==0.8.14
