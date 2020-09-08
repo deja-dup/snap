@@ -35,13 +35,11 @@ diff --git a/deja-dup/main.vala b/deja-dup/main.vala
 index 54fa8413..bc563442 100644
 --- a/deja-dup/main.vala
 +++ b/deja-dup/main.vala
-@@ -224,9 +224,6 @@ public class DejaDupApp : Gtk.Application
+@@ -224,7 +224,6 @@ public class DejaDupApp : Gtk.Application
  
    void help()
    {
--    unowned List<Gtk.Window> list = get_windows();
--    DejaDup.show_uri(list == null ? null : list.data,
--                     "help:" + Config.PACKAGE);
+-    DejaDup.show_uri(main_window, "help:" + Config.PACKAGE);
    }
  
    void menu()
