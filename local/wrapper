@@ -11,6 +11,12 @@ cp --update "$AUTOSTART_FILE" "$AUTOSTART_DIR"
 
 export PATH="$SNAP/bin:$SNAP/usr/bin:$PATH"
 
+# Once our desktop filename can match our application ID, we can probably drop
+# the following fixes for notifications.
+# https://forum.snapcraft.io/t/proposal-allow-snaps-to-specify-their-exact-desktop-file-id/12689/2
+export GNOTIFICATION_BACKEND=freedesktop
+export DEJA_DUP_NOTIFICATION_ICON="$SNAP/usr/share/icons/hicolor/symbolic/apps/org.gnome.DejaDup-symbolic.svg"
+
 # Without this line we don't seem to properly watch dconf changes.
 # The snap default is this dir, plus a "snap.deja-dup" directory.
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
