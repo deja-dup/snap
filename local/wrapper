@@ -16,6 +16,9 @@ export PATH="$SNAP/bin:$SNAP/usr/bin:$PATH"
 # https://forum.snapcraft.io/t/proposal-allow-snaps-to-specify-their-exact-desktop-file-id/12689/2
 export GNOTIFICATION_BACKEND=freedesktop
 export DEJA_DUP_NOTIFICATION_ICON="$SNAP/usr/share/icons/hicolor/symbolic/apps/org.gnome.DejaDup-symbolic.svg"
+# Disable prompt under fdo notify backend, since it can't autostart us when
+# we aren't already open, and that's usually the case with the prompt
+gsettings set org.gnome.DejaDup prompt-check disabled
 
 # Without this line we don't seem to properly watch dconf changes.
 # The snap default is this dir, plus a "snap.deja-dup" directory.
