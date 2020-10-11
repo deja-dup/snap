@@ -1,3 +1,15 @@
+diff --git a/data/org.gnome.DejaDup.appdata.xml.in b/data/org.gnome.DejaDup.appdata.xml.in
+index 5558af12..e41b5b91 100644
+--- a/data/org.gnome.DejaDup.appdata.xml.in
++++ b/data/org.gnome.DejaDup.appdata.xml.in
+@@ -31,7 +31,6 @@ SPDX-FileCopyrightText: Michael Terry
+     <kudo>HighContrast</kudo>
+     <kudo>ModernToolkit</kudo>
+     <kudo>Notifications</kudo>
+-    <kudo>UserDocs</kudo>
+   </kudos>
+ 
+   <provides>
 diff --git a/data/ui/help-overlay.ui b/data/ui/help-overlay.ui
 index 0e29fbbf..a8b0f559 100644
 --- a/data/ui/help-overlay.ui
