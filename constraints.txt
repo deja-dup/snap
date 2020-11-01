@@ -1,1 +1,1 @@
-duplicity==0.8.17.dev18
+duplicity==0.8.17.dev29
