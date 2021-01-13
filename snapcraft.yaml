@@ -50,7 +50,17 @@ parts:
       - -bin/python
       - -bin/python3
 
+  libhandy:
+    plugin: meson
+    source: https://gitlab.gnome.org/GNOME/libhandy.git
+    source-type: git
+    source-tag: 1.0.3
+    meson-parameters:
+      - -Dexamples=false
+      - -Dtests=false
+
   deja-dup:
+    after: [libhandy]
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
@@ -61,6 +71,9 @@ parts:
     parse-info: [usr/share/metainfo/org.gnome.DejaDup.appdata.xml]
     organize:
       snap/deja-dup/current: .
+    build-environment:
+      # To find libhandy-1.vapi
+      - XDG_DATA_DIRS: "$XDG_DATA_DIRS:$SNAPCRAFT_STAGE/usr/local/share"
     build-packages:
       - gettext
       - itstool
@@ -68,7 +81,6 @@ parts:
       - libglib2.0-dev
       - libgpg-error-dev
       - libgtk-3-dev
-      - libhandy-0.0-dev
       - libjson-glib-dev
       - libsecret-1-dev
       - libsoup2.4-dev
@@ -76,7 +88,6 @@ parts:
     stage-packages:
       - gvfs-backends
       - libgtk-3-0
-      - libhandy-0.0-0
       - libjson-glib-1.0-0
       - libsecret-1-0
       - libsoup2.4-1
