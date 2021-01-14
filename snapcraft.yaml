@@ -91,6 +91,11 @@ parts:
       - libjson-glib-1.0-0
       - libsecret-1-0
       - libsoup2.4-1
+    override-build: |
+      echo MIKE1:
+      env | grep XDG_
+      dpkg -L libsecret-1-dev
+      snapcraftctl build
     override-pull: |
       snapcraftctl pull
       patch -p1 -N < ${SNAPCRAFT_PROJECT_DIR}/no-help.diff
