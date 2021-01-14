@@ -73,7 +73,7 @@ parts:
       snap/deja-dup/current: .
     build-environment:
       # To find libhandy-1.vapi
-      - XDG_DATA_DIRS: "$XDG_DATA_DIRS:$SNAPCRAFT_STAGE/usr/local/share"
+      - XDG_DATA_DIRS: "/usr/share:$SNAPCRAFT_STAGE/usr/local/share"
     build-packages:
       - gettext
       - itstool
@@ -91,11 +91,6 @@ parts:
       - libjson-glib-1.0-0
       - libsecret-1-0
       - libsoup2.4-1
-    override-build: |
-      echo MIKE1:
-      env | grep XDG_
-      dpkg -L libsecret-1-dev
-      snapcraftctl build
     override-pull: |
       snapcraftctl pull
       patch -p1 -N < ${SNAPCRAFT_PROJECT_DIR}/no-help.diff
