@@ -6,6 +6,12 @@
 name: deja-dup
 license: GPL-3.0+
 
+website: https://wiki.gnome.org/Apps/DejaDup
+source-code: https://gitlab.gnome.org/World/deja-dup.git
+issues: https://gitlab.gnome.org/World/deja-dup/-/issues
+donation: https://wiki.gnome.org/Apps/DejaDup/Donate
+contact: https://discourse.gnome.org/tags/c/applications/7/deja-dup
+
 grade: stable
 confinement: classic
 base: core20
