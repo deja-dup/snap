@@ -6,11 +6,13 @@
 name: deja-dup
 license: GPL-3.0+
 
-website: https://wiki.gnome.org/Apps/DejaDup
-source-code: https://gitlab.gnome.org/World/deja-dup.git
-issues: https://gitlab.gnome.org/World/deja-dup/-/issues
-donation: https://wiki.gnome.org/Apps/DejaDup/Donate
-contact: https://discourse.gnome.org/tags/c/applications/7/deja-dup
+# Disabled for now - store caught our builds in manual review because of the
+# unexpected 'links' attribute in the resulting snap.yml
+#website: https://wiki.gnome.org/Apps/DejaDup
+#source-code: https://gitlab.gnome.org/World/deja-dup.git
+#issues: https://gitlab.gnome.org/World/deja-dup/-/issues
+#donation: https://wiki.gnome.org/Apps/DejaDup/Donate
+#contact: https://discourse.gnome.org/tags/c/applications/7/deja-dup
 
 grade: stable
 confinement: classic
@@ -48,6 +50,7 @@ parts:
       - libgirepository1.0-dev
       - librsync-dev
       - libssl-dev
+      - rustc # for cryptography package
     stage-packages:
       - gpg
       - libgirepository-1.0-1
