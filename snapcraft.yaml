@@ -40,16 +40,6 @@ parts:
 
   duplicity:
     plugin: python
-    # Make sure we have pip 21 or higher, to fix cryptography module build.
-    # (It needs compiled rust code.) Can remove next time we bump our base.
-    override-pull: |
-      pip install -vvv -U pip
-      pip --version
-      snapcraftctl pull
-    override-build: |
-      pip --version
-      pip install --only-binary cryptography cryptography
-      snapcraftctl build
     constraints:
       - ${SNAPCRAFT_PROJECT_DIR}/constraints.txt
     python-packages:
@@ -57,9 +47,11 @@ parts:
       - pydrive2
       - pygobject
     build-packages:
+      - cargo # to build cryptography
       - libgirepository1.0-dev
       - librsync-dev
       - libssl-dev
+      - rustc # to build cryptography
     stage-packages:
       - gpg
       - libgirepository-1.0-1
