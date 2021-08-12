@@ -48,6 +48,7 @@ parts:
       snapcraftctl pull
     override-build: |
       pip --version
+      pip install --only-binary cryptography cryptography
       snapcraftctl build
     constraints:
       - ${SNAPCRAFT_PROJECT_DIR}/constraints.txt
