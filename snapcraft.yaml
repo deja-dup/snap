@@ -143,3 +143,9 @@ parts:
       - xdg-user-dirs
       - ibus-gtk3
       - libibus-1.0-5
+    override-prime: |
+      snapcraftctl prime
+      # these scripts want to run several commands (like compiling gsettings, gio modules)
+      # from our extension runtime, but we don't have one - so point at core instead
+      mkdir -p usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+      ln -s "/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/glib-2.0" "usr/lib/$SNAPCRAFT_ARCH_TRIPLET/glib-2.0"
