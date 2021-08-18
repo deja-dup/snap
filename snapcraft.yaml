@@ -146,6 +146,5 @@ parts:
     override-prime: |
       snapcraftctl prime
       # these scripts want to run several commands (like compiling gsettings, gio modules)
-      # from our extension runtime, but we don't have one - so point at core instead
-      mkdir -p usr/lib/$SNAPCRAFT_ARCH_TRIPLET
-      ln -s "/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/glib-2.0" "usr/lib/$SNAPCRAFT_ARCH_TRIPLET/glib-2.0"
+      # from our extension runtime, but we don't have one - so use copies from core instead
+      cp -r "/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/glib-2.0" "usr/lib/$SNAPCRAFT_ARCH_TRIPLET"
