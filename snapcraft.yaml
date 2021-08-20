@@ -113,6 +113,8 @@ parts:
     plugin: nil
     after: [duplicity, deja-dup]
     stage-packages:
+      - libpython3.8-minimal
+      - libpython3.8-stdlib
       - python3-minimal
       - python3.8-minimal
 

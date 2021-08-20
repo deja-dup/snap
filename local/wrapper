@@ -31,7 +31,8 @@ export LD_LIBRARY_PATH="$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET/gvfs:$LD_LIBRA
 export GTK_EXE_PREFIX="$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET"
 
 # Point at our internal python packages
-export PYTHONPATH="$SNAP/lib/python3.8/site-packages:$PYTHONPATH"
+export PYTHONHOME="$SNAP/usr"
+export PYTHONPATH="$SNAP/lib/python3.8/site-packages"
 
 export DEJA_DUP_MONITOR_EXEC="/snap/bin/deja-dup.monitor"
 exec "$@"
