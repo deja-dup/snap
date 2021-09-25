@@ -9,10 +9,14 @@ license: GPL-3.0+
 # Disabled for now - store caught our builds in manual review because of the
 # unexpected 'links' attribute in the resulting snap.yml
 #website: https://wiki.gnome.org/Apps/DejaDup
-#source-code: https://gitlab.gnome.org/World/deja-dup.git
+#source-code:
+#  - https://gitlab.gnome.org/World/deja-dup.git
+#  - https://github.com/deja-dup/snap.git
 #issues: https://gitlab.gnome.org/World/deja-dup/-/issues
-#donation: https://wiki.gnome.org/Apps/DejaDup/Donate
-#contact: https://discourse.gnome.org/tags/c/applications/7/deja-dup
+#donation: https://liberapay.com/DejaDup
+#contact:
+#  - https://discourse.gnome.org/tags/c/applications/7/deja-dup
+#  - https://matrix.to/#/#deja-dup:gnome.org
 
 grade: stable
 confinement: classic
@@ -20,18 +24,32 @@ base: core20
 adopt-info: deja-dup
 assumes: [command-chain]
 
+# - Could point python at core20 instead of bundling it in.
+# - Could bundle gnome into ourselves and chop it up
+
+# Hooks:
+# hooks-configure-desktop comes from fonts
+
 apps:
   deja-dup:
     adapter: full
     command-chain: [bin/desktop-launch, wrapper]
     command: usr/bin/deja-dup
     common-id: org.gnome.DejaDup
+    #environment:
+    #  SNAP_DESKTOP_RUNTIME: $SNAP/gnome-platform
 
   monitor:
     adapter: full
     command-chain: [bin/desktop-launch, wrapper]
     command: usr/libexec/deja-dup/deja-dup-monitor
     autostart: org.gnome.DejaDup.Monitor.desktop
+
+plugs:
+  gnome-3-38-2004:
+    interface: content
+    target: $SNAP/gnome-platform # not actually mounted, because of classic mode
+    default-provider: gnome-3-38-2004
 
 parts:
   dump:
