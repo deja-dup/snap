@@ -3,6 +3,19 @@
 # SPDX-License-Identifier: GPL-3.0-or-later
 # SPDX-FileCopyrightText: Michael Terry
 
+if [ "$SNAP_ARCH" = "amd64" ]; then
+  ARCH="x86_64-linux-gnu"
+elif [ "$SNAP_ARCH" = "armhf" ]; then
+  ARCH="arm-linux-gnueabihf"
+elif [ "$SNAP_ARCH" = "arm64" ]; then
+  ARCH="aarch64-linux-gnu"
+elif [ "$SNAP_ARCH" = "ppc64el" ]; then
+  ARCH="powerpc64le-linux-gnu"
+else
+  ARCH="$SNAP_ARCH-linux-gnu"
+fi
+export SNAP_LAUNCHER_ARCH_TRIPLET=$ARCH
+
 # Set up the monitor daemon to autostart
 AUTOSTART_DIR="$SNAP_USER_DATA/.config/autostart"
 AUTOSTART_FILE="$SNAP/usr/etc/xdg/autostart/org.gnome.DejaDup.Monitor.desktop"
@@ -10,6 +23,8 @@ mkdir -p "$AUTOSTART_DIR"
 cp --update "$AUTOSTART_FILE" "$AUTOSTART_DIR"
 
 export PATH="$SNAP/bin:$SNAP/usr/bin:$PATH"
+
+export GSETTINGS_SCHEMA_DIR=$SNAP/usr/share/glib-2.0/schemas
 
 # Once our desktop filename can match our application ID, we can probably drop
 # the following fixes for notifications.
@@ -24,11 +39,8 @@ gsettings set org.gnome.DejaDup prompt-check disabled
 # The snap default is this dir, plus a "snap.deja-dup" directory.
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
-# To make gvfs-backend and its GVFS url parsing work, we need this next line
-export LD_LIBRARY_PATH="$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET/gvfs:$LD_LIBRARY_PATH"
-
-# Fixes a crash
 export GTK_EXE_PREFIX="$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET"
+export GIO_EXTRA_MODULES="$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET/gio/modules"
 
 # Point at our internal python packages
 export PYTHONHOME="$SNAP/usr"
