@@ -1,7 +1,7 @@
-diff --git a/data/org.gnome.DejaDup.appdata.xml.in b/data/org.gnome.DejaDup.appdata.xml.in
+diff --git a/data/org.gnome.DejaDup.metainfo.xml.in b/data/org.gnome.DejaDup.metainfo.xml.in
 index 5558af12..e41b5b91 100644
---- a/data/org.gnome.DejaDup.appdata.xml.in
-+++ b/data/org.gnome.DejaDup.appdata.xml.in
+--- a/data/org.gnome.DejaDup.metainfo.xml.in
++++ b/data/org.gnome.DejaDup.metainfo.xml.in
 @@ -31,7 +31,6 @@ SPDX-FileCopyrightText: Michael Terry
      <kudo>HighContrast</kudo>
      <kudo>ModernToolkit</kudo>
@@ -14,13 +14,12 @@ diff --git a/data/ui/help-overlay.ui b/data/ui/help-overlay.ui
 index 0e29fbbf..a8b0f559 100644
 --- a/data/ui/help-overlay.ui
 +++ b/data/ui/help-overlay.ui
-@@ -17,13 +17,6 @@ SPDX-FileCopyrightText: Michael Terry
+@@ -17,12 +17,6 @@ SPDX-FileCopyrightText: Michael Terry
            <object class="GtkShortcutsGroup">
              <property name="visible">1</property>
              <property name="title" translatable="yes" context="shortcut window">General</property>
 -            <child>
 -              <object class="GtkShortcutsShortcut">
--                <property name="visible">1</property>
 -                <property name="accelerator">F1</property>
 -                <property name="title" translatable="yes" context="shortcut window">Show help</property>
 -              </object>
@@ -28,10 +27,10 @@ index 0e29fbbf..a8b0f559 100644
              <child>
                <object class="GtkShortcutsShortcut">
                  <property name="visible">1</property>
-diff --git a/data/ui/menus.ui b/data/ui/menus.ui
+diff --git a/data/ui/MainHeaderBar.ui b/data/ui/MainHeaderBar.ui
 index 38449842..8af37785 100644
---- a/data/ui/menus.ui
-+++ b/data/ui/menus.ui
+--- a/data/ui/MainHeaderBar.ui
++++ b/data/ui/MainHeaderBar.ui
 @@ -16,10 +16,6 @@ SPDX-FileCopyrightText: Michael Terry
          <attribute name="label" translatable="yes">_Keyboard Shortcuts</attribute>
          <attribute name="action">win.show-help-overlay</attribute>
@@ -51,7 +50,7 @@ index 54fa8413..bc563442 100644
  
    void help()
    {
--    DejaDup.show_uri(main_window, "help:" + Config.PACKAGE);
+-    Gtk.show_uri(get_app_window(), "help:" + Config.PACKAGE, Gdk.CURRENT_TIME);
    }
  
    void menu()
