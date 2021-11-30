@@ -70,6 +70,8 @@ parts:
     stage:
       - bin/duplicity
       - lib
+      - usr/bin/gpg
+      - usr/lib
 
   gtk:
     plugin: meson
@@ -206,6 +208,15 @@ parts:
       cd usr/lib/$SNAPCRAFT_ARCH_TRIPLET; ls ../../local/lib/$SNAPCRAFT_ARCH_TRIPLET -p | grep -v / | xargs rm -f; cd -
       # Fix shebangs to not reference /usr/bin/env
       grep -rl '#!/usr/bin/env python3' | xargs sed -i 's|#!/usr/bin/env python3|#!/snap/deja-dup/current/usr/bin/python3|' || true
+      # Compile pixbuf loaders cache
+      export GDK_PIXBUF_MODULEDIR=`pwd`/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gdk-pixbuf-2.0/2.10.0/loaders
+      export GDK_PIXBUF_MODULE_FILE=${GDK_PIXBUF_MODULEDIR}.cache
+      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
+      sed -i "s|`pwd`|/snap/deja-dup/current|g" $GDK_PIXBUF_MODULE_FILE
       # Compile giomodules cache
       gio-querymodules usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gio/modules
+      # Compile our gschema, but make sure we remove all schemas that aren't ours first
+      # (we are using host gsettings, so we want to look at host schemas, not the ones from the build)
+      find usr/share/glib-2.0/schemas -mindepth 1 ! -name org.gnome.DejaDup.gschema.xml -delete
+      cp usr/local/share/glib-2.0/schemas/*.xml usr/share/glib-2.0/schemas
       glib-compile-schemas usr/share/glib-2.0/schemas
