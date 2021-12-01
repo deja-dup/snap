@@ -131,7 +131,6 @@ parts:
       - libcairo-script-interpreter2
       - libcairo2
       - libdatrie1
-      - libegl1 # dlopen'd by libepoxy
       - libepoxy0
       - libfontconfig1
       - libfreetype6
@@ -139,7 +138,6 @@ parts:
       - libgdk-pixbuf2.0-0
       - libgraphene-1.0-0
       - libgraphite2-3
-      - libgl1-mesa-dri # dlopen'd by libegl1
       - libharfbuzz0b
       - libpixman-1-0
       - libpng16-16
