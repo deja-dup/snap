@@ -39,6 +39,9 @@ gsettings set org.gnome.DejaDup prompt-check disabled
 # The snap default is this dir, plus a "snap.deja-dup" directory.
 export XDG_RUNTIME_DIR="/run/user/$(id -u)"
 
+# To find yelp file
+export XDG_DATA_DIRS="$SNAP/usr/share:$XDG_DATA_DIRS"
+
 export GTK_EXE_PREFIX="$SNAP/usr/lib/$SNAP_LAUNCHER_ARCH_TRIPLET"
 export GDK_PIXBUF_MODULE_FILE="$GTK_EXE_PREFIX/gdk-pixbuf-2.0/2.10.0/loaders.cache"
 export GIO_EXTRA_MODULES="$GTK_EXE_PREFIX/gio/modules"
