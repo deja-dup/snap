@@ -78,7 +78,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/glib.git
     source-type: git
-    source-tag: 2.70.0 # needs to be >= 2.66
+    source-tag: 2.70.2
     meson-parameters:
       - -Dtests=false
       - --wrap-mode=nodownload
@@ -88,7 +88,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/pango.git
     source-type: git
-    source-tag: 1.48.7 # needs to be >= 1.47.0
+    source-tag: 1.50.3
     meson-parameters:
       - --wrap-mode=nodownload
 
@@ -96,7 +96,7 @@ parts:
     plugin: meson
     source: https://gitlab.freedesktop.org/wayland/wayland-protocols.git
     source-type: git
-    source-tag: '1.23' # needs to be >= 1.21
+    source-tag: '1.24'
     meson-parameters:
       - -Dtests=false
       - --wrap-mode=nodownload
@@ -106,7 +106,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/gtk.git
     source-type: git
-    source-tag: 4.4.1
+    source-tag: 4.6.0
     meson-parameters:
       - -Dbuild-examples=false
       - -Dbuild-tests=false
@@ -118,6 +118,7 @@ parts:
       - libgdk-pixbuf2.0-dev
       - libgraphene-1.0-dev
       - libpango1.0-dev
+      - libtiff-dev
       - libwayland-dev
       - libxcursor-dev
       - libxdamage-dev
@@ -165,7 +166,7 @@ parts:
     plugin: autotools
     source: https://gitlab.gnome.org/GNOME/vala.git
     source-type: git
-    source-tag: 0.54.1
+    source-tag: 0.54.5
     build-packages:
       - autoconf-archive
       - bison
@@ -178,7 +179,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/libadwaita.git
     source-type: git
-    source-tag: 1.0.0.alpha.4
+    source-tag: 1.0.0
     meson-parameters:
       - -Dexamples=false
       - -Dtests=false
@@ -195,7 +196,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
-    source-tag: 43.beta
+    source-branch: main
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
