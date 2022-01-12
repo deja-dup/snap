@@ -180,6 +180,7 @@ parts:
     source: https://gitlab.gnome.org/GNOME/libadwaita.git
     source-type: git
     source-tag: 1.0.0
+    meson-version: 0.60.3 # 0.61.0 has a bug
     meson-parameters:
       - -Dexamples=false
       - -Dtests=false
@@ -196,7 +197,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
-    source-branch: main
+    source-tag: '43.0'
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
@@ -226,6 +227,9 @@ parts:
       - libsecret-1-0
       - libsoup2.4-1
       - util-linux # ionice and chrt
+    override-pull: |
+      snapcraftctl pull
+      patch -p1 -N < ${SNAPCRAFT_PROJECT_DIR}/window-size.patch
     override-prime: |
       snapcraftctl prime
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/org.gnome.DejaDup.svg|' usr/share/applications/org.gnome.DejaDup.desktop
