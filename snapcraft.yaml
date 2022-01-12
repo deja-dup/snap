@@ -179,7 +179,8 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/libadwaita.git
     source-type: git
-    source-tag: 1.0.0
+    source-tag: 1.0.1
+    meson-version: 0.60.3  # bug with 0.61.0
     meson-parameters:
       - -Dexamples=false
       - -Dtests=false
@@ -191,8 +192,47 @@ parts:
       # To find vapigen
       - PATH: "$SNAPCRAFT_STAGE/usr/local/bin:$PATH"
 
+  glib-networking:
+    after: [glib]
+    plugin: meson
+    source: https://gitlab.gnome.org/GNOME/glib-networking.git
+    source-type: git
+    source-tag: 2.70.1
+    meson-parameters:
+      - --wrap-mode=nodownload
+    build-packages:
+      - libgnutls28-dev
+    stage-packages:
+      - libgnutls30 # oddly not 28
+    build-environment:
+      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.54:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+
+  libsoup:
+    after: [glib, glib-networking, vala]
+    plugin: meson
+    source: https://gitlab.gnome.org/GNOME/libsoup.git
+    source-type: git
+    source-tag: 3.0.4
+    meson-parameters:
+      - --wrap-mode=nodownload
+    build-packages:
+      - libnghttp2-dev
+      - libpsl-dev
+      - libsqlite3-dev
+    stage-packages:
+      - libnghttp2-14
+      - libpsl5
+      - libsqlite3-0
+    build-environment:
+      - GIO_MODULE_DIR: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET/gio/modules
+      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.54:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+      # To find gir files
+      - XDG_DATA_DIRS: $SNAPCRAFT_STAGE/usr/local/share:/usr/share
+      # To find vapigen
+      - PATH: "$SNAPCRAFT_STAGE/usr/local/bin:$PATH"
+
   deja-dup:
-    after: [duplicity, gtk, libadwaita]
+    after: [duplicity, gtk, libadwaita, libsoup]
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
@@ -217,15 +257,20 @@ parts:
       - libgpg-error-dev
       - libjson-glib-dev
       - libsecret-1-dev
-      - libsoup2.4-dev
       - valac
     stage-packages:
       - gvfs-backends
       - libjson-glib-1.0-0
       - librsvg2-common # pixbuf loaders
       - libsecret-1-0
-      - libsoup2.4-1
       - util-linux # ionice and chrt
+    override-pull: |
+      snapcraftctl pull
+      # To avoid needing this custom vapi, we need to fix libsoup not building
+      # its own vapi correctly - it keeps finding the system glib without GUri.
+      # I tried pointing it at our newer glib, but core22 is coming soon enough
+      # that I didn't want to spend a whole lot of time on this.
+      cp $SNAPCRAFT_PROJECT_DIR/libsoup-3.0.vapi $SNAPCRAFT_PART_SRC/vapi
     override-prime: |
       snapcraftctl prime
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/org.gnome.DejaDup.svg|' usr/share/applications/org.gnome.DejaDup.desktop
