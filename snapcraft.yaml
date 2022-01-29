@@ -275,7 +275,7 @@ parts:
       # Remove libraries from archive that we have built updated copies of
       cd usr/lib/$SNAPCRAFT_ARCH_TRIPLET; ls ../../local/lib/$SNAPCRAFT_ARCH_TRIPLET -p | grep -v / | xargs rm -f; cd -
       # Fix shebangs to not reference /usr/bin/env
-      grep -rl '#!/usr/bin/env python3' | xargs sed -i 's|#!/usr/bin/env python3|#!/snap/deja-dup/current/usr/bin/python3|' || true
+      grep -rl '#!/usr/bin/env python3' | xargs sed -i 's|#!/usr/bin/env python3|#!/snap/deja-dup/current/usr/bin/python3 -s|' || true
       # Compile pixbuf loaders cache
       export GDK_PIXBUF_MODULEDIR=`pwd`/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gdk-pixbuf-2.0/2.10.0/loaders
       export GDK_PIXBUF_MODULE_FILE=${GDK_PIXBUF_MODULEDIR}.cache
