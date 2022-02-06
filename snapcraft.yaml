@@ -197,7 +197,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
-    source-tag: '43.0'
+    source-tag: '43.2'
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
@@ -229,7 +229,7 @@ parts:
       - util-linux # ionice and chrt
     override-pull: |
       snapcraftctl pull
-      patch -p1 -N < ${SNAPCRAFT_PROJECT_DIR}/window-size.patch
+      patch -p1 -N -R < ${SNAPCRAFT_PROJECT_DIR}/soup3.patch
     override-prime: |
       snapcraftctl prime
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/org.gnome.DejaDup.svg|' usr/share/applications/org.gnome.DejaDup.desktop
