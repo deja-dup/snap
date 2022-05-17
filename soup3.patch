@@ -70,7 +70,7 @@ index 14cf07ba..9efb689f 100644
      if (message.status_code != Soup.Status.OK)
        return null;
      var data = new uint8[5000]; // assume anything we read will be 5k or smaller
-@@ -153,43 +153,43 @@ public abstract class DejaDup.BackendOAuth : Backend
+@@ -153,38 +153,38 @@ public abstract class DejaDup.BackendOAuth : Backend
  
    string get_consent_location()
    {
@@ -78,7 +78,7 @@ index 14cf07ba..9efb689f 100644
 -      "GET", auth_url,
 +    var form = Soup.Form.encode(
        "client_id", client_id,
-       "redirect_uri", local_address,
+       "redirect_uri", get_redirect_uri(),
        "response_type", "code",
        "code_challenge", pkce,
        "scope", scope
@@ -94,7 +94,7 @@ index 14cf07ba..9efb689f 100644
 -      "POST", token_url,
 +    var form = Soup.Form.encode(
        "client_id", client_id,
-       "redirect_uri", local_address,
+       "redirect_uri", get_redirect_uri(),
        "grant_type", "authorization_code",
        "code_verifier", pkce,
        "code", code
@@ -116,45 +116,6 @@ index 14cf07ba..9efb689f 100644
      yield get_tokens(message);
    }
  
-   // Returns true if are done with consent flow
--  bool process_server_request(Soup.Message message, string path,
-+  bool process_server_request(Soup.ServerMessage message, string path,
-                               HashTable<string, string>? query,
-                               out string code, out string error_msg)
-   {
-@@ -197,11 +197,11 @@ public abstract class DejaDup.BackendOAuth : Backend
-     error_msg = null;
- 
-     if (path != "/") {
--      message.status_code = Soup.Status.NOT_FOUND;
-+      message.set_status(Soup.Status.NOT_FOUND, null);
-       return false;
-     }
- 
--    message.status_code = Soup.Status.ACCEPTED;
-+    message.set_status(Soup.Status.ACCEPTED, null);
- 
-     string? error = query == null ? null : query.lookup("error");
-     if (error != null) {
-@@ -217,7 +217,8 @@ public abstract class DejaDup.BackendOAuth : Backend
- 
-     // Show consent granted screen
-     var html = DejaDup.get_access_granted_html();
--    message.response_body.append_take(html.data);
-+    message.set_response("text/html; charset=UTF-8", Soup.MemoryUse.COPY,
-+                         html.data);
-     return true;
-   }
- 
-@@ -227,7 +228,7 @@ public abstract class DejaDup.BackendOAuth : Backend
-     var server = new Soup.Server("server-header",
-                                  "%s/%s ".printf(Config.PACKAGE, Config.VERSION));
-     server.listen_local(0, Soup.ServerListenOptions.IPV4_ONLY);
--    local_address = server.get_uris().data.to_string(false);
-+    local_address = server.get_uris().data.to_string();
- 
-     // Prepare to handle requests that finish the consent process
-     string error_msg = null;
 diff --git a/libdeja/CommonUtils.vala b/libdeja/CommonUtils.vala
 index 72b77027..04b7fff2 100644
 --- a/libdeja/CommonUtils.vala

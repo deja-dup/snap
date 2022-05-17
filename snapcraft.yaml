@@ -197,7 +197,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
-    source-tag: '43.2'
+    source-tag: '43.3'
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
