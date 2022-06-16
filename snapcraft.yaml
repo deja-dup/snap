@@ -16,12 +16,12 @@ contact:
 
 grade: stable
 confinement: classic
-base: core20
+base: core22
 compression: lzo
 adopt-info: deja-dup
 assumes: [command-chain]
 
-# - Could point python at core20 instead of bundling it in.
+# - Could point python at core22 instead of bundling it in.
 # - Could bundle gnome into ourselves and chop it up
 
 # Hooks:
@@ -49,7 +49,7 @@ parts:
     source-type: git
     source-tag: rel.0.8.23
     override-pull: |
-      snapcraftctl pull
+      craftctl default
       sed -i 's/$version/0.8.23/g' bin/* duplicity/__init__.py
     python-packages:
       - pydrive2
@@ -72,125 +72,8 @@ parts:
       - usr/bin/gpg
       - usr/lib
 
-  glib:
-    plugin: meson
-    source: https://gitlab.gnome.org/GNOME/glib.git
-    source-type: git
-    source-tag: 2.70.5
-    meson-parameters:
-      - -Dtests=false
-      - --wrap-mode=nodownload
-
-  pango:
-    after: [glib]
-    plugin: meson
-    source: https://gitlab.gnome.org/GNOME/pango.git
-    source-type: git
-    source-tag: 1.50.7
-    meson-parameters:
-      - --wrap-mode=nodownload
-
-  wayland-protocols:
-    plugin: meson
-    source: https://gitlab.freedesktop.org/wayland/wayland-protocols.git
-    source-type: git
-    source-tag: '1.24'
-    meson-parameters:
-      - -Dtests=false
-      - --wrap-mode=nodownload
-
-  gtk:
-    after: [glib, pango, wayland-protocols]
-    plugin: meson
-    source: https://gitlab.gnome.org/GNOME/gtk.git
-    source-type: git
-    source-tag: 4.6.0
-    meson-parameters:
-      - -Dbuild-examples=false
-      - -Dbuild-tests=false
-      - -Ddemos=false
-      - -Dmedia-gstreamer=disabled
-      - --wrap-mode=nodownload
-    build-packages:
-      - libepoxy-dev
-      - libgdk-pixbuf2.0-dev
-      - libgraphene-1.0-dev
-      - libpango1.0-dev
-      - libtiff-dev
-      - libwayland-dev
-      - libxcursor-dev
-      - libxdamage-dev
-      - libxi-dev
-      - libxinerama-dev
-      - libxkbcommon-dev
-      - libxrandr-dev
-      - sassc
-    stage-packages:
-      - libcairo-gobject2
-      - libcairo-script-interpreter2
-      - libcairo2
-      - libdatrie1
-      - libepoxy0
-      - libfontconfig1
-      - libfreetype6
-      - libfribidi0
-      - libgdk-pixbuf2.0-0
-      - libgraphene-1.0-0
-      - libgraphite2-3
-      - libharfbuzz0b
-      - libpixman-1-0
-      - libpng16-16
-      - libthai0
-      - libwayland-client0
-      - libwayland-egl1
-      - libx11-6
-      - libxau6
-      - libxcb-render0
-      - libxcb-shm0
-      - libxcb1
-      - libxcursor1
-      - libxdamage1
-      - libxdmcp6
-      - libxext6
-      - libxfixes3
-      - libxi6
-      - libxinerama1
-      - libxkbcommon0
-      - libxrandr2
-      - libxrender1
-
-  vala: # for new gtk4 bindings
-    after: [gtk]
-    plugin: autotools
-    source: https://gitlab.gnome.org/GNOME/vala.git
-    source-type: git
-    source-tag: 0.54.8
-    build-packages:
-      - autoconf-archive
-      - bison
-      - flex
-      - libgraphviz-dev
-    prime: [-**]
-
-  libadwaita:
-    after: [gtk, vala]
-    plugin: meson
-    source: https://gitlab.gnome.org/GNOME/libadwaita.git
-    source-type: git
-    source-tag: 1.1.2
-    meson-parameters:
-      - -Dexamples=false
-      - -Dtests=false
-      - --wrap-mode=nodownload
-    build-environment:
-      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.54:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
-      # To find gir files
-      - XDG_DATA_DIRS: $SNAPCRAFT_STAGE/usr/local/share:/usr/share
-      # To find vapigen
-      - PATH: "$SNAPCRAFT_STAGE/usr/local/bin:$PATH"
-
   deja-dup:
-    after: [duplicity, gtk, libadwaita]
+    after: [duplicity]
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
@@ -203,32 +86,29 @@ parts:
     organize:
       snap/deja-dup/current: .
     build-environment:
-      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.54:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
-      # To find libadwaita-1.vapi
-      - XDG_DATA_DIRS: $SNAPCRAFT_STAGE/usr/local/share:/usr/share
-      # To find gtk4-update-icon-cache
-      - PATH: "$SNAPCRAFT_STAGE/usr/local/bin:$PATH"
+      - LD_LIBRARY_PATH: /snap/core22/current/usr/lib/$CRAFT_ARCH_TRIPLET
     build-packages:
       - appstream # for ITS rules for metainfo
       - gettext
       - itstool
+      - libadwaita-1-dev
       - libgpg-error-dev
       - libjson-glib-dev
       - libsecret-1-dev
-      - libsoup2.4-dev
+      - libsoup-3.0-dev
+      - meson
+      - ninja-build
       - valac
     stage-packages:
       - gvfs-backends
+      - libadwaita-1-0
       - libjson-glib-1.0-0
       - librsvg2-common # pixbuf loaders
       - libsecret-1-0
-      - libsoup2.4-1
+      - libsoup-3.0-0
       - util-linux # ionice and chrt
-    override-pull: |
-      snapcraftctl pull
-      patch -p1 -N -R < ${SNAPCRAFT_PROJECT_DIR}/soup3.patch
     override-prime: |
-      snapcraftctl prime
+      craftctl default
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/org.gnome.DejaDup.svg|' usr/share/applications/org.gnome.DejaDup.desktop
 
   rclone:
@@ -236,22 +116,26 @@ parts:
     source: https://github.com/rclone/rclone.git
     source-type: git
     source-tag: v1.58.1
+    build-snaps:
+      - go
 
   restic:
     plugin: go
     source: https://github.com/restic/restic.git
     source-type: git
     source-tag: v0.13.1
+    build-snaps:
+      - go
 
   # Done separately because the other parts freaks out if we try to stage python
   python:
     plugin: nil
     after: [duplicity, deja-dup]
     stage-packages:
-      - libpython3.8-minimal
-      - libpython3.8-stdlib
+      - libpython3.10-minimal
+      - libpython3.10-stdlib
       - python3-minimal
-      - python3.8-minimal
+      - python3.10-minimal
 
   finalize:
     plugin: nil
@@ -259,29 +143,30 @@ parts:
     build-packages:
       - patchelf
     override-prime: |
-      snapcraftctl prime
+      craftctl default
       # snapcraft will set RPATH for us. But it may get some things wrong.
       # (A) its order seems undefined
       # (B) for deja-dup-monitor at least, it only adds an core path, not knowing
       #     that actually, we'd prefer our own glib
       # So what we want to do is to set specific rpaths for all libraries and
       # executables.
-      export PATCHELF="patchelf --force-rpath --set-rpath /snap/deja-dup/current/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:/snap/deja-dup/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:/snap/deja-dup/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/deja-dup:/snap/deja-dup/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gvfs:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"
-      find lib usr -name '*.so*' -exec $PATCHELF {} \;
-      find bin usr/bin usr/libexec -exec $PATCHELF {} \;
-      # Remove libraries from archive that we have built updated copies of
-      cd usr/lib/$SNAPCRAFT_ARCH_TRIPLET; ls ../../local/lib/$SNAPCRAFT_ARCH_TRIPLET -p | grep -v / | xargs rm -f; cd -
+      export BARE_INTERPRETER=`patchelf --print-interpreter /snap/core22/current/bin/ls`
+      export SET_INTERP="patchelf --set-interpreter /snap/core22/current$BARE_INTERPRETER"
+      export SET_RPATH="patchelf --force-rpath --set-rpath /snap/deja-dup/current/usr/lib/$CRAFT_ARCH_TRIPLET:/snap/deja-dup/current/usr/lib/$CRAFT_ARCH_TRIPLET/deja-dup:/snap/deja-dup/current/usr/lib/$CRAFT_ARCH_TRIPLET/gvfs:/snap/core22/current/usr/lib/$CRAFT_ARCH_TRIPLET"
+      find lib usr -name '*.so*' -exec $SET_RPATH {} \;
+      find lib usr -name '*.so*' -exec $SET_INTERP {} \;
+      find bin usr/bin usr/libexec -exec $SET_RPATH {} \;
+      find bin usr/bin usr/libexec -exec $SET_INTERP {} \;
       # Fix shebangs to not reference /usr/bin/env
       grep -rl '#!/usr/bin/env python3' | xargs sed -i 's|#!/usr/bin/env python3|#!/snap/deja-dup/current/usr/bin/python3 -s|' || true
       # Compile pixbuf loaders cache
-      export GDK_PIXBUF_MODULEDIR=`pwd`/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gdk-pixbuf-2.0/2.10.0/loaders
+      export GDK_PIXBUF_MODULEDIR=`pwd`/usr/lib/$CRAFT_ARCH_TRIPLET/gdk-pixbuf-2.0/2.10.0/loaders
       export GDK_PIXBUF_MODULE_FILE=${GDK_PIXBUF_MODULEDIR}.cache
-      usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
+      env LD_LIBRARY_PATH=`pwd`/usr/lib/$CRAFT_ARCH_TRIPLET usr/lib/$CRAFT_ARCH_TRIPLET/gdk-pixbuf-2.0/gdk-pixbuf-query-loaders --update-cache
       sed -i "s|`pwd`|/snap/deja-dup/current|g" $GDK_PIXBUF_MODULE_FILE
       # Compile giomodules cache
-      gio-querymodules usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gio/modules
+      gio-querymodules usr/lib/$CRAFT_ARCH_TRIPLET/gio/modules
       # Compile our gschema, but make sure we remove all schemas that aren't ours first
       # (we are using host gsettings, so we want to look at host schemas, not the ones from the build)
-      find usr/share/glib-2.0/schemas -mindepth 1 ! -name org.gnome.DejaDup.gschema.xml -delete
-      cp usr/local/share/glib-2.0/schemas/*.xml usr/share/glib-2.0/schemas
+      find usr/share/glib-2.0/schemas -mindepth 1 '!' '(' -name org.gnome.DejaDup.gschema.xml -o -name 'org.gtk.gtk4.*.gschema.xml' ')' -delete
       glib-compile-schemas usr/share/glib-2.0/schemas
