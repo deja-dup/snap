@@ -6,7 +6,7 @@
 .PHONY: snap
 snap:
 	rm -f *.snap
-	snapcraft snap
+	snapcraft
 	snap install ./*.snap --classic --dangerous
 	! ldd /snap/deja-dup/current/usr/bin/deja-dup | grep -e '=> /usr/' -e '=> /lib/'
 	! ldd /snap/deja-dup/current/usr/libexec/deja-dup/deja-dup-monitor | grep -e '=> /usr/' -e '=> /lib/'

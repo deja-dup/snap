@@ -1,1 +1,0 @@
-duplicity==0.8.21.post7

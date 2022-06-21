@@ -6,21 +6,18 @@
 name: deja-dup
 license: GPL-3.0+
 
-# Disabled for now - store caught our builds in manual review because of the
-# unexpected 'links' attribute in the resulting snap.yml
-#website: https://wiki.gnome.org/Apps/DejaDup
-#source-code:
-#  - https://gitlab.gnome.org/World/deja-dup.git
-#  - https://github.com/deja-dup/snap.git
-#issues: https://gitlab.gnome.org/World/deja-dup/-/issues
-#donation: https://liberapay.com/DejaDup
-#contact:
-#  - https://discourse.gnome.org/tags/c/applications/7/deja-dup
-#  - https://matrix.to/#/#deja-dup:gnome.org
+website: https://wiki.gnome.org/Apps/DejaDup
+source-code: https://github.com/deja-dup/snap.git
+issues: https://gitlab.gnome.org/World/deja-dup/-/issues
+donation: https://liberapay.com/DejaDup
+contact:
+  - https://discourse.gnome.org/tags/c/applications/7/deja-dup
+  - https://matrix.to/#/#deja-dup:gnome.org
 
 grade: stable
 confinement: classic
 base: core20
+compression: lzo
 adopt-info: deja-dup
 assumes: [command-chain]
 
@@ -32,13 +29,11 @@ assumes: [command-chain]
 
 apps:
   deja-dup:
-    adapter: full
     command-chain: [wrapper]
     command: usr/bin/deja-dup
     common-id: org.gnome.DejaDup
 
   monitor:
-    adapter: full
     command-chain: [wrapper]
     command: usr/libexec/deja-dup/deja-dup-monitor
     autostart: org.gnome.DejaDup.Monitor.desktop
@@ -50,10 +45,13 @@ parts:
 
   duplicity:
     plugin: python
-    constraints:
-      - ${SNAPCRAFT_PROJECT_DIR}/constraints.txt
+    source: https://gitlab.com/duplicity/duplicity.git
+    source-type: git
+    source-tag: rel.0.8.23
+    override-pull: |
+      snapcraftctl pull
+      sed -i 's/$version/0.8.23/g' bin/* duplicity/__init__.py
     python-packages:
-      - duplicity
       - pydrive2
       - pygobject
       - requests-oauthlib
@@ -78,7 +76,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/glib.git
     source-type: git
-    source-tag: 2.70.2
+    source-tag: 2.70.5
     meson-parameters:
       - -Dtests=false
       - --wrap-mode=nodownload
@@ -88,7 +86,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/pango.git
     source-type: git
-    source-tag: 1.50.3
+    source-tag: 1.50.7
     meson-parameters:
       - --wrap-mode=nodownload
 
@@ -166,7 +164,7 @@ parts:
     plugin: autotools
     source: https://gitlab.gnome.org/GNOME/vala.git
     source-type: git
-    source-tag: 0.54.5
+    source-tag: 0.54.8
     build-packages:
       - autoconf-archive
       - bison
@@ -179,8 +177,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/libadwaita.git
     source-type: git
-    source-tag: 1.0.0
-    meson-version: 0.60.3 # 0.61.0 has a bug
+    source-tag: 1.1.2
     meson-parameters:
       - -Dexamples=false
       - -Dtests=false
@@ -197,7 +194,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
-    source-tag: '43.3'
+    source-tag: '43.4'
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
@@ -238,13 +235,13 @@ parts:
     plugin: go
     source: https://github.com/rclone/rclone.git
     source-type: git
-    source-tag: v1.57.0
+    source-tag: v1.58.1
 
   restic:
     plugin: go
     source: https://github.com/restic/restic.git
     source-type: git
-    source-tag: v0.12.1
+    source-tag: v0.13.1
 
   # Done separately because the other parts freaks out if we try to stage python
   python:
