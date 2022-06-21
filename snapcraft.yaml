@@ -10,9 +10,7 @@ website: https://wiki.gnome.org/Apps/DejaDup
 source-code: https://github.com/deja-dup/snap.git
 issues: https://gitlab.gnome.org/World/deja-dup/-/issues
 donation: https://liberapay.com/DejaDup
-contact:
-  - https://discourse.gnome.org/tags/c/applications/7/deja-dup
-  - https://matrix.to/#/#deja-dup:gnome.org
+contact: https://discourse.gnome.org/tags/c/applications/7/deja-dup
 
 grade: stable
 confinement: classic
