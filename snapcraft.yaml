@@ -45,10 +45,10 @@ parts:
     plugin: python
     source: https://gitlab.com/duplicity/duplicity.git
     source-type: git
-    source-tag: rel.1.2.2
+    source-tag: rel.1.2.3
     override-pull: |
       snapcraftctl pull
-      sed -i 's/$version/1.2.2/g' bin/* duplicity/__init__.py
+      sed -i 's/$version/1.2.3/g' bin/* duplicity/__init__.py
     python-packages:
       - pydrive2
       - pygobject
@@ -192,7 +192,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
-    source-commit: 828c551cc534cdfd44e9aa4f7ab7f0a5ab1a03e4
+    source-commit: ff62426ba5a2d03c0548d16988b39c09c64ee8d4
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
@@ -233,13 +233,13 @@ parts:
     plugin: go
     source: https://github.com/rclone/rclone.git
     source-type: git
-    source-tag: v1.59.2
+    source-tag: v1.62.2
 
   restic:
     plugin: go
     source: https://github.com/restic/restic.git
     source-type: git
-    source-tag: v0.14.0
+    source-tag: v0.15.2
 
   # Done separately because the other parts freaks out if we try to stage python
   python:
