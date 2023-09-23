@@ -74,48 +74,84 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/glib.git
     source-type: git
-    source-tag: 2.74.2
+    source-tag: 2.78.0
     meson-parameters:
       - -Dtests=false
       - --wrap-mode=nodownload
 
-  pango:
+  harfbuzz:
     after: [glib]
+    plugin: meson
+    source: https://github.com/harfbuzz/harfbuzz.git
+    source-type: git
+    source-tag: 8.2.1
+    meson-parameters:
+      - -Dtests=disabled
+      - --wrap-mode=nodownload
+
+  pango:
+    after: [glib, harfbuzz]
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/pango.git
     source-type: git
     source-tag: 1.50.12
     meson-parameters:
       - --wrap-mode=nodownload
+    build-environment:
+      # To find gir files
+      - XDG_DATA_DIRS: $SNAPCRAFT_STAGE/usr/local/share:/usr/share
+    build-packages:
+      - libfribidi-dev
+      - libgirepository1.0-dev
+    stage-packages:
+      - libfribidi0
+
+  wayland:
+    plugin: meson
+    source: https://gitlab.freedesktop.org/wayland/wayland.git
+    source-type: git
+    source-tag: '1.22.0'
+    meson-parameters:
+      - -Ddocumentation=false
+      - -Ddtd_validation=false
+      - -Dtests=false
+      - --wrap-mode=nodownload
 
   wayland-protocols:
     plugin: meson
     source: https://gitlab.freedesktop.org/wayland/wayland-protocols.git
     source-type: git
-    source-tag: '1.30'
+    source-tag: '1.32'
     meson-parameters:
       - -Dtests=false
       - --wrap-mode=nodownload
 
   gtk:
-    after: [glib, pango, wayland-protocols]
+    after: [glib, harfbuzz, pango, wayland, wayland-protocols]
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/gtk.git
     source-type: git
-    source-tag: 4.6.0 # any newer would require a newer wayland
+    source-tag: 4.12.2
     meson-parameters:
+      - -Dbuild-demos=false
       - -Dbuild-examples=false
       - -Dbuild-tests=false
-      - -Ddemos=false
+      - -Dbuild-testsuite=false
+      - -Dintrospection=enabled
       - -Dmedia-gstreamer=disabled
       - --wrap-mode=nodownload
+    build-environment:
+      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.56:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+      # To find gir files
+      - XDG_DATA_DIRS: $SNAPCRAFT_STAGE/usr/local/share:/usr/share
+      # To find wayland-scanner
+      - PATH: "$SNAPCRAFT_STAGE/usr/local/bin:$PATH"
     build-packages:
       - libepoxy-dev
       - libgdk-pixbuf2.0-dev
+      - libgirepository1.0-dev
       - libgraphene-1.0-dev
-      - libpango1.0-dev
       - libtiff-dev
-      - libwayland-dev
       - libxcursor-dev
       - libxdamage-dev
       - libxi-dev
@@ -135,12 +171,9 @@ parts:
       - libgdk-pixbuf2.0-0
       - libgraphene-1.0-0
       - libgraphite2-3
-      - libharfbuzz0b
       - libpixman-1-0
       - libpng16-16
       - libthai0
-      - libwayland-client0
-      - libwayland-egl1
       - libx11-6
       - libxau6
       - libxcb-render0
@@ -157,12 +190,12 @@ parts:
       - libxrandr2
       - libxrender1
 
-  vala: # for new gtk4 bindings
+  vala:
     after: [gtk]
     plugin: autotools
     source: https://gitlab.gnome.org/GNOME/vala.git
     source-type: git
-    source-tag: 0.54.9
+    source-tag: 0.56.13
     build-packages:
       - autoconf-archive
       - bison
@@ -170,18 +203,40 @@ parts:
       - libgraphviz-dev
     prime: [-**]
 
+  libappstream:
+    after: [glib]
+    plugin: meson
+    source: https://github.com/ximion/appstream.git
+    source-type: git
+    source-tag: v0.14.6
+    meson-parameters:
+      - -Dapidocs=false
+      - -Dstemming=false
+      - --wrap-mode=nodownload
+    build-packages:
+      - docbook-xsl
+      - gperf
+      - libcurl4-gnutls-dev
+      - liblmdb-dev
+      - libyaml-dev
+      - xsltproc
+    stage-packages:
+      - libcurl3-gnutls
+      - liblmdb0
+      - libyaml-0-2
+
   libadwaita:
-    after: [gtk, vala]
+    after: [gtk, libappstream, vala]
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/libadwaita.git
     source-type: git
-    source-tag: 1.2.0
+    source-tag: 1.4.0
     meson-parameters:
       - -Dexamples=false
       - -Dtests=false
       - --wrap-mode=nodownload
     build-environment:
-      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.54:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.56:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
       # To find gir files
       - XDG_DATA_DIRS: $SNAPCRAFT_STAGE/usr/local/share:/usr/share
       # To find vapigen
@@ -192,7 +247,7 @@ parts:
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-type: git
-    source-commit: ff62426ba5a2d03c0548d16988b39c09c64ee8d4
+    source-commit: ab9e54f5c05ed60a48d7b595ca94c16ca790ae1e
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
@@ -201,13 +256,12 @@ parts:
     organize:
       snap/deja-dup/current: .
     build-environment:
-      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.54:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
+      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.56:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
       # To find libadwaita-1.vapi
       - XDG_DATA_DIRS: $SNAPCRAFT_STAGE/usr/local/share:/usr/share
       # To find gtk4-update-icon-cache
       - PATH: "$SNAPCRAFT_STAGE/usr/local/bin:$PATH"
     build-packages:
-      - appstream # for ITS rules for metainfo
       - gettext
       - itstool
       - libgpg-error-dev
@@ -264,7 +318,7 @@ parts:
       #     that actually, we'd prefer our own glib
       # So what we want to do is to set specific rpaths for all libraries and
       # executables.
-      export PATCHELF="patchelf --force-rpath --set-rpath /snap/deja-dup/current/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:/snap/deja-dup/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:/snap/deja-dup/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/deja-dup:/snap/deja-dup/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gvfs:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"
+      export PATCHELF="patchelf --force-rpath --set-rpath /snap/deja-dup/current/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:/snap/deja-dup/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET:/snap/deja-dup/current/lib/$SNAPCRAFT_ARCH_TRIPLET:/snap/deja-dup/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/deja-dup:/snap/deja-dup/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET/gvfs:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET"
       find lib usr -name '*.so*' -exec $PATCHELF {} \;
       find bin usr/bin usr/libexec -exec $PATCHELF {} \;
       # Remove libraries from archive that we have built updated copies of
