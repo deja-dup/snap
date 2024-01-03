@@ -213,6 +213,8 @@ parts:
       - -Dapidocs=false
       - -Dstemming=false
       - --wrap-mode=nodownload
+    build-environment:
+      - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.56:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
     build-packages:
       - docbook-xsl
       - gperf
