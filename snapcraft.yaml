@@ -44,6 +44,7 @@ parts:
   duplicity:
     plugin: python
     source: https://gitlab.com/duplicity/duplicity.git
+    source-depth: 1
     source-type: git
     source-tag: rel.2.2.3
     python-packages:
@@ -66,6 +67,7 @@ parts:
   glib:
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/glib.git
+    source-depth: 1
     source-type: git
     source-tag: 2.78.0
     meson-parameters:
@@ -76,6 +78,7 @@ parts:
     after: [glib]
     plugin: meson
     source: https://github.com/harfbuzz/harfbuzz.git
+    source-depth: 1
     source-type: git
     source-tag: 8.2.1
     meson-parameters:
@@ -86,6 +89,7 @@ parts:
     after: [glib, harfbuzz]
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/pango.git
+    source-depth: 1
     source-type: git
     source-tag: 1.50.12
     meson-parameters:
@@ -102,6 +106,7 @@ parts:
   wayland:
     plugin: meson
     source: https://gitlab.freedesktop.org/wayland/wayland.git
+    source-depth: 1
     source-type: git
     source-tag: '1.22.0'
     meson-parameters:
@@ -113,6 +118,7 @@ parts:
   wayland-protocols:
     plugin: meson
     source: https://gitlab.freedesktop.org/wayland/wayland-protocols.git
+    source-depth: 1
     source-type: git
     source-tag: '1.32'
     meson-parameters:
@@ -123,6 +129,7 @@ parts:
     after: [glib, harfbuzz, pango, wayland, wayland-protocols]
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/gtk.git
+    source-depth: 1
     source-type: git
     source-tag: 4.14.1
     meson-parameters:
@@ -190,6 +197,7 @@ parts:
     after: [gtk]
     plugin: autotools
     source: https://gitlab.gnome.org/GNOME/vala.git
+    source-depth: 1
     source-type: git
     source-tag: 0.56.13
     build-packages:
@@ -203,6 +211,7 @@ parts:
     after: [glib]
     plugin: meson
     source: https://github.com/ximion/appstream.git
+    source-depth: 1
     source-type: git
     source-tag: v0.14.6
     meson-parameters:
@@ -227,6 +236,7 @@ parts:
     after: [gtk, libappstream, vala]
     plugin: meson
     source: https://gitlab.gnome.org/GNOME/libadwaita.git
+    source-depth: 1
     source-type: git
     source-tag: 1.5.0
     meson-parameters:
@@ -244,6 +254,7 @@ parts:
     after: [duplicity, gtk, libadwaita]
     plugin: meson
     source: https://gitlab.gnome.org/World/deja-dup.git
+    source-depth: 1
     source-type: git
     source-commit: 1ad43cae1d42d086f50fafcd50f9ed4bd389025d
     meson-parameters:
@@ -284,12 +295,14 @@ parts:
   rclone:
     plugin: go
     source: https://github.com/rclone/rclone.git
+    source-depth: 1
     source-type: git
     source-commit: 7c828ffe092edd0b02f34042f391fb1fc526a433  # need unreleased 1.67 fixes
 
   restic:
     plugin: go
     source: https://github.com/restic/restic.git
+    source-depth: 1
     source-type: git
     source-tag: v0.16.4
 
