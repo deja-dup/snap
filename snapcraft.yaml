@@ -46,17 +46,22 @@ parts:
     source: https://gitlab.com/duplicity/duplicity.git
     source-depth: 1
     source-type: git
-    source-tag: rel.2.2.3
+    source-tag: rel.2.1.4
     override-pull: |
       snapcraftctl pull
       patch -p1 < ${SNAPCRAFT_PROJECT_DIR}/mount.patch
+      sed -i 's/$version/2.1.4/g' bin/* duplicity/__init__.py
     python-packages:
-      - fasteners
+      - pydrive2
       - pygobject
+      - requests-oauthlib
     build-packages:
+      - cargo # to build cryptography
       - libcairo2-dev # to build pycairo
       - libgirepository1.0-dev
       - librsync-dev
+      - libssl-dev
+      - rustc # to build cryptography
     stage-packages:
       - gpg
       - libgirepository-1.0-1
@@ -134,7 +139,7 @@ parts:
     source: https://gitlab.gnome.org/GNOME/gtk.git
     source-depth: 1
     source-type: git
-    source-tag: 4.14.1
+    source-tag: 4.12.2
     meson-parameters:
       - -Dbuild-demos=false
       - -Dbuild-examples=false
@@ -142,7 +147,6 @@ parts:
       - -Dbuild-testsuite=false
       - -Dintrospection=enabled
       - -Dmedia-gstreamer=disabled
-      - -Dvulkan=disabled
       - --wrap-mode=nodownload
     build-environment:
       - LD_LIBRARY_PATH: $SNAPCRAFT_STAGE/usr/local/lib/$SNAPCRAFT_ARCH_TRIPLET:$SNAPCRAFT_STAGE/usr/local/lib:$SNAPCRAFT_STAGE/usr/local/lib/vala-0.56:/snap/core20/current/usr/lib/$SNAPCRAFT_ARCH_TRIPLET
@@ -151,7 +155,6 @@ parts:
       # To find wayland-scanner
       - PATH: "$SNAPCRAFT_STAGE/usr/local/bin:$PATH"
     build-packages:
-      - libdrm-dev
       - libepoxy-dev
       - libgdk-pixbuf2.0-dev
       - libgirepository1.0-dev
@@ -169,7 +172,6 @@ parts:
       - libcairo-script-interpreter2
       - libcairo2
       - libdatrie1
-      - libdrm2
       - libepoxy0
       - libfontconfig1
       - libfreetype6
@@ -241,7 +243,7 @@ parts:
     source: https://gitlab.gnome.org/GNOME/libadwaita.git
     source-depth: 1
     source-type: git
-    source-tag: 1.5.0
+    source-tag: 1.4.0
     meson-parameters:
       - -Dexamples=false
       - -Dtests=false
@@ -259,7 +261,7 @@ parts:
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-depth: 1
     source-type: git
-    source-commit: 1ad43cae1d42d086f50fafcd50f9ed4bd389025d
+    source-commit: 585b723da27fdc6ad5c2a3b27858fdc9056f0038
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
@@ -300,14 +302,14 @@ parts:
     source: https://github.com/rclone/rclone.git
     source-depth: 1
     source-type: git
-    source-commit: 7c828ffe092edd0b02f34042f391fb1fc526a433  # need unreleased 1.67 fixes
+    source-tag: v1.62.2
 
   restic:
     plugin: go
     source: https://github.com/restic/restic.git
     source-depth: 1
     source-type: git
-    source-tag: v0.16.4
+    source-tag: v0.15.2
 
   # Done separately because the other parts freaks out if we try to stage python
   python:
