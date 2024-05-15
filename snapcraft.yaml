@@ -47,6 +47,9 @@ parts:
     source-depth: 1
     source-type: git
     source-tag: rel.2.2.3
+    override-pull: |
+      snapcraftctl pull
+      patch -p1 < ${SNAPCRAFT_PROJECT_DIR}/mount.patch
     python-packages:
       - fasteners
       - pygobject

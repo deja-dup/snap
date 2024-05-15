@@ -1,0 +1,17 @@
+diff --git a/duplicity/backends/giobackend.py b/duplicity/backends/giobackend.py
+index e6a21628..f44904ee 100644
+--- a/duplicity/backends/giobackend.py
++++ b/duplicity/backends/giobackend.py
+@@ -85,12 +85,6 @@ class GIOBackend(duplicity.backend.Backend):
+ 
+         self.remote_file = Gio.File.new_for_uri(parsed_url.url_string)
+ 
+-        # Now we make sure the location is mounted
+-        op = DupMountOperation(self)
+-        loop = GLib.MainLoop()
+-        self.remote_file.mount_enclosing_volume(Gio.MountMountFlags.NONE, op, None, self.__done_with_mount, loop)
+-        loop.run()  # halt program until we're done mounting
+-
+         # Now make the directory if it doesn't exist
+         if not self.remote_file.query_exists():
+             self.remote_file.make_directory_with_parents(None)
