@@ -51,7 +51,6 @@ parts:
       snapcraftctl pull
       patch -p1 < ${SNAPCRAFT_PROJECT_DIR}/mount.patch
       patch -p1 < ${SNAPCRAFT_PROJECT_DIR}/onedrive.patch
-      sed -i 's/$version/2.2.3/g' bin/* duplicity/__init__.py
     python-packages:
       - fasteners
     build-packages:
