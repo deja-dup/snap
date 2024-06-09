@@ -98,10 +98,12 @@ parts:
       # To find gir files
       - XDG_DATA_DIRS: $SNAPCRAFT_STAGE/usr/local/share:/usr/share
     build-packages:
+      - libcairo2-dev
       - libfontconfig-dev
       - libfribidi-dev
       - libgirepository1.0-dev
     stage-packages:
+      - libcairo2
       - libfontconfig1
       - libfribidi0
 
