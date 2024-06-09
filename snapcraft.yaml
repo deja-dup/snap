@@ -98,9 +98,11 @@ parts:
       # To find gir files
       - XDG_DATA_DIRS: $SNAPCRAFT_STAGE/usr/local/share:/usr/share
     build-packages:
+      - libfontconfig-dev
       - libfribidi-dev
       - libgirepository1.0-dev
     stage-packages:
+      - libfontconfig1
       - libfribidi0
 
   wayland:
