@@ -242,7 +242,7 @@ parts:
     source: https://gitlab.gnome.org/GNOME/libadwaita.git
     source-depth: 1
     source-type: git
-    source-tag: 1.5.0
+    source-tag: 1.5.1
     meson-parameters:
       - -Dexamples=false
       - -Dtests=false
@@ -260,6 +260,7 @@ parts:
     source: https://gitlab.gnome.org/World/deja-dup.git
     source-depth: 1
     source-type: git
+    source-commit: fa6bd34e9f881582fd93fce77976a19e382b687f
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
@@ -300,7 +301,7 @@ parts:
     source: https://github.com/rclone/rclone.git
     source-depth: 1
     source-type: git
-    source-commit: 7c828ffe092edd0b02f34042f391fb1fc526a433  # need unreleased 1.67 fixes
+    source-tag: v1.67.0
 
   restic:
     plugin: go
