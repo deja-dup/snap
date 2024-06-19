@@ -261,9 +261,6 @@ parts:
     source-depth: 1
     source-type: git
     source-commit: fa6bd34e9f881582fd93fce77976a19e382b687f
-    override-pull: |
-      snapcraftctl pull
-      patch -p1 < ${SNAPCRAFT_PROJECT_DIR}/gvfs-fuse.patch
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
@@ -295,6 +292,7 @@ parts:
     override-pull: |
       snapcraftctl pull
       patch -p1 -N -R < ${SNAPCRAFT_PROJECT_DIR}/soup3.patch
+      patch -p1 < ${SNAPCRAFT_PROJECT_DIR}/gvfs-fuse.patch
     override-prime: |
       snapcraftctl prime
       sed -i 's|Icon=.*|Icon=${SNAP}/usr/share/icons/hicolor/scalable/apps/org.gnome.DejaDup.svg|' usr/share/applications/org.gnome.DejaDup.desktop
