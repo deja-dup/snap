@@ -261,6 +261,9 @@ parts:
     source-depth: 1
     source-type: git
     source-commit: fa6bd34e9f881582fd93fce77976a19e382b687f
+    override-pull: |
+      snapcraftctl pull
+      patch -p1 < ${SNAPCRAFT_PROJECT_DIR}/gvfs-fuse.patch
     meson-parameters:
       - --buildtype=release
       - --prefix=/snap/deja-dup/current/usr
